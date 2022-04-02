@@ -1,0 +1,21 @@
+export ARCH=arm64
+export SUBARCH=arm64
+export HEADER_ARCH=arm64
+PATH="/home/syz/toolchains/aarch64-linux-android-4.9/bin:/home/syz/toolchains/arm-linux-androideabi-4.9/bin:${PATH}"
+
+rm -rf out
+
+make O=out clean && make mrproper
+
+make O=out ARCH=arm64 mokee_santoni_defconfig
+
+cd out
+
+make menuconfig
+
+make -j$(nproc --all) O=out ARCH=arm64 CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi-
+
+
+
+
+https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/
